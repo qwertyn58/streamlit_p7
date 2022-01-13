@@ -10,7 +10,6 @@ st.title('Décision d\'octroi de crédit')
 #getting our trained model from a file we created earlier
 model = pickle.load(open("modele.pkl","rb")) 
 df_clients = pd.read_csv('df_clients.csv')
-seuil = pickle.load(open("seuil.pkl","rb"))
 st.subheader('Raw data')
 st.write(df_clients)
 
@@ -59,7 +58,7 @@ def predict(sk_id):
     data = fetch(session,f"https://p7-oc-ql.herokuapp.com/predict?sk_id={index}")
     if data:
         st.write('La probabilité que ce client rembourse est de ',data[1])        
-        if data[0]['predictions']>seuil:
+        if data[0]['predictions']:
             st.write('Le crédit est accordé')
         else:
             st.write('Le crédit est refusé')   
