@@ -1,1 +1,1 @@
-web: gunicorn p7_flask:app
+web: gunicorn p7:app
