@@ -1,1 +1,1 @@
-web: gunicorn p7:app
+web: setup.sh && streamlit run p7.py
