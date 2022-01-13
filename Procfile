@@ -1,1 +1,1 @@
-web: setup.sh && streamlit run p7.py
+web: sh setup.sh && streamlit run p7.py
