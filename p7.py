@@ -10,7 +10,7 @@ st.title('Décision d\'octroi de crédit')
 #getting our trained model from a file we created earlier
 model = pickle.load(open("modele.pkl","rb")) 
 df_clients = pd.read_csv('df_clients.csv')
-st.subheader('Raw data')
+st.subheader('BOLOSSA')
 st.write(df_clients)
 
 
