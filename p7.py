@@ -62,7 +62,7 @@ def lime(sk_id):
 def predict(sk_id):    
     data = fetch(session,f"https://p7-oc-ql.herokuapp.com/predict?sk_id={index}")
     if len(data)==2: #data[0]:prediction, data[1]=proba
-        st.write('La probabilité que ce client rembourse est de ',data[1])        
+        st.write('La probabilité que ce client rembourse est de ',data[0])        
         if data[0]['predictions']:
             st.write('Le crédit est refusé')
         else:
