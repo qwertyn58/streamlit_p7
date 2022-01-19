@@ -10,7 +10,7 @@ st.title('Décision d\'octroi de crédit')
 #getting our trained model from a file we created earlier
 model = pickle.load(open("modele.pkl","rb")) 
 df_clients = pd.read_csv('df_clients.csv')
-st.subheader('BOLOSSA')
+st.subheader('Raw data')
 st.write(df_clients)
 
 
@@ -44,10 +44,15 @@ def lime(sk_id):
             predict_fn=model.predict_proba
         )
         
-        
+        st.write(df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],:])
+        # lime_exp.as_pyplot_figure()
+        # # fig=plt.tight_layout()
+        # st.pyplot()
+
         lime_exp.as_pyplot_figure()
-        fig=plt.tight_layout()
-        st.pyplot(fig)
+        st.pyplot()
+        lime_exp.html(lime_exp.as_html(), height=800)
+
 
 
 
@@ -56,7 +61,7 @@ def lime(sk_id):
 
 def predict(sk_id):    
     data = fetch(session,f"https://p7-oc-ql.herokuapp.com/predict?sk_id={index}")
-    if data:
+    if len(data)==2: #data[0]:prediction, data[1]=proba
         st.write('La probabilité que ce client rembourse est de ',data[1])        
         if data[0]['predictions']:
             st.write('Le crédit est refusé')
@@ -75,7 +80,7 @@ with st.form("my_form"):
     submitted = st.form_submit_button("Valider")
 
     if submitted:
-        st.write("Result")
+        st.write("Résultat :")
         predict(index)
         lime(index)
 # if __name__ == "__main__":
