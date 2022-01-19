@@ -59,9 +59,9 @@ def predict(sk_id):
     if data:
         st.write('La probabilité que ce client rembourse est de ',data[1])        
         if data[0]['predictions']:
-            st.write('Le crédit est accordé')
+            st.write('Le crédit est refusé')
         else:
-            st.write('Le crédit est refusé')   
+            st.write('Le crédit est accordé')   
     else :
         st.write('identifiant incorrect')
 
