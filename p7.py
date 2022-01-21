@@ -35,31 +35,31 @@ def fetch(session, url):
 
 
 
-def lime(sk_id):
-    if sk_id in df_clients['SK_ID_CURR'].values:
+# def lime(sk_id):
+#     if sk_id in df_clients['SK_ID_CURR'].values:
 
-        lime_explainer = lime_tabular.LimeTabularExplainer(
-            training_data=np.array(df_clients.iloc[:,1:]),
-            feature_names=df_clients.iloc[:,1:].columns,
-            class_names=['good', 'bad'],
-            mode='classification'
-        )
+#         lime_explainer = lime_tabular.LimeTabularExplainer(
+#             training_data=np.array(df_clients.iloc[:,1:]),
+#             feature_names=df_clients.iloc[:,1:].columns,
+#             class_names=['good', 'bad'],
+#             mode='classification'
+#         )
         
-        test_1 = df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],1:]
+#         test_1 = df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],1:]
         
-        lime_exp = lime_explainer.explain_instance(
-            data_row=test_1,
-            predict_fn=model.predict_proba,
-            num_features=20
-        )
+#         lime_exp = lime_explainer.explain_instance(
+#             data_row=test_1,
+#             predict_fn=model.predict_proba,
+#             num_features=20
+#         )
         
-        #st.write(df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],:])
+#         #st.write(df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],:])
 
-        # lime_exp.as_pyplot_figure(label=1)
-        # st.pyplot()
+#         # lime_exp.as_pyplot_figure(label=1)
+#         # st.pyplot()
         
-        html = lime_exp.as_html()
-        components.html(html, width=1000,height=600)
+#         html = lime_exp.as_html()
+#         components.html(html, width=1000,height=600)
 
 
 def indicateur(sk_id,data):
@@ -113,8 +113,8 @@ def main():
         indicateur(index,data)
         predict(index,data)    
         
-        with st.expander("Explications"):
-            lime(index)        
+        # with st.expander("Explications"):
+        #     lime(index)        
         
         with st.expander("Afficher les graphes"):
             a=st.selectbox('Select a Platform', options=df_clients.columns)
