@@ -16,7 +16,7 @@ model = pickle.load(open("modele.pkl","rb"))
 df_clients = pd.read_csv('df_clients.csv')
 df_voisins = pd.read_csv('df_voisins.csv')
 df_target = pd.read_csv('df_target.csv')
-df_voisins = df_voisins.merge(df_target)
+
 
 st.subheader('Liste des clients')
 st.write(df_clients)
@@ -90,6 +90,7 @@ def predict(sk_id,data):
 
 
 def voisins(sk_id,a,b): 
+    df_clients['TARGET']=df_target['TARGET']
     fig = px.scatter(df_clients[df_clients['SK_ID_CURR'].isin(
         df_voisins[df_voisins['SK_ID_CURR']==sk_id].values[0])], 
         x=a, 
