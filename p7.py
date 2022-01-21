@@ -49,7 +49,8 @@ def lime(sk_id):
         
         lime_exp = lime_explainer.explain_instance(
             data_row=test_1,
-            predict_fn=model.predict_proba
+            predict_fn=model.predict_proba,
+            num_features=20
         )
         
         #st.write(df_clients.iloc[df_clients[df_clients['SK_ID_CURR']==sk_id].index.values[0],:])
