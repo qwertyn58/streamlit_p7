@@ -6,7 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import requests
 import plotly.graph_objects as go
-from bokeh.plotting import figure
 import plotly.figure_factory as ff
 import plotly.express as px
 
