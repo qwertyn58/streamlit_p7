@@ -113,9 +113,9 @@ def main():
         with st.expander("Explications"):
             explainer_lime(index)        
         
-        with st.expander("Afficher les graphes"):
-            a=st.selectbox('Select a Platform', options=df_clients.columns)
-            b=st.selectbox('Select a Platform2', options=df_clients.columns)
+        with st.expander("Comparaison avec les clients ayant des caractéristiques similaires"):
+            a=st.selectbox('variable x', options=df_clients.columns)
+            b=st.selectbox('variable y', options=df_clients.columns)
             voisins(index,a,b)
     else :
         st.write('identifiant incorrect')
