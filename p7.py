@@ -3,12 +3,10 @@ import streamlit.components.v1 as components
 import pickle
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import requests
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
 import plotly.express as px
-import lime
+from lime import lime_tabular
 
 st.title('Décision d\'octroi de crédit')
 #getting our trained model from a file we created earlier
@@ -18,10 +16,10 @@ df_voisins = pd.read_csv('df_voisins.csv')
 df_target = pd.read_csv('df_target.csv')
 
 
+
+
 st.subheader('Liste des clients')
 st.write(df_clients)
-
-
 
 
 
@@ -38,7 +36,7 @@ def fetch(session, url):
 def explainer_lime(sk_id):
     if sk_id in df_clients['SK_ID_CURR'].values:
 
-        lime_explainer = lime.lime_tabular.LimeTabularExplainer(
+        lime_explainer = lime_tabular.LimeTabularExplainer(
             training_data=np.array(df_clients.iloc[:,1:]),
             feature_names=df_clients.iloc[:,1:].columns,
             class_names=['good', 'bad'],
@@ -59,6 +57,8 @@ def explainer_lime(sk_id):
         components.html(html, width=1000,height=600)
 
 
+
+
 def indicateur(sk_id,data):
     seuil=data[0]['seuil']
     fig = go.Figure(go.Indicator(
@@ -76,6 +76,7 @@ def indicateur(sk_id,data):
 
 
 
+
 def predict(sk_id,data):        
     st.write('La probabilité que ce client rembourse est de ',data[1])        
     if data[0]['predictions']:
@@ -88,19 +89,45 @@ def predict(sk_id,data):
 
 def voisins(sk_id,a,b): 
     df_clients['TARGET']=df_target['TARGET']
-    fig = px.scatter(df_clients[df_clients['SK_ID_CURR'].isin(
+    
+    fig = px.scatter(df_clients[df_clients['SK_ID_CURR']==sk_id], 
+                                 x=a, 
+                                 y=b,
+                                 text='SK_ID_CURR')
+    
+    fig2 = px.scatter(df_clients[df_clients['SK_ID_CURR'].isin(
         df_voisins[df_voisins['SK_ID_CURR']==sk_id].values[0])], 
         x=a, 
         y=b,
-        color='TARGET')
-    st.write(fig)
+        color='TARGET',
+        hover_name='SK_ID_CURR')
+    
+    
 
-
+    fig3 = go.Figure(data=fig.data + fig2.data)
+    
+    fig3.update_layout(coloraxis = dict(
+        cauto=False, 
+        cmin=0, 
+        cmax=1))
+    
+    fig3.update_coloraxes(colorscale=[[0, "green"],[1,"red"]]) 
+    
+    fig3.update_layout(
+        xaxis_title=a,
+        yaxis_title=b,
+        coloraxis_colorbar=dict(title="TARGET"))
+  
+    st.write(fig3)
+    
+ 
+    
 session = requests.Session()
 index = st.number_input("Entrez l'identifiant du client",min_value =0)
  
 
-  
+ 
+ 
 def main():
     st.write("Résultat :")
     
@@ -122,7 +149,5 @@ def main():
 
 main()        
             
-# if __name__ == "__main__":
-#     app.run(debug=True)
 
    
