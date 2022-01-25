@@ -92,7 +92,8 @@ def voisins(sk_id,a,b):
         df_voisins[df_voisins['SK_ID_CURR']==sk_id].values[0])], 
         x=a, 
         y=b,
-        color='TARGET')
+        color='TARGET',
+        colorscale='RdBu')
     st.write(fig)
 
 
